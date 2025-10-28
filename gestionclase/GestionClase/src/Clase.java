@@ -23,6 +23,7 @@
 
 public class Clase {
 
+    ClaseView claseView;
     Alumno[] alumnos = new Alumno[4];
 
 

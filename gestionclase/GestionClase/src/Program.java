@@ -29,14 +29,15 @@ public class Program {
         Alumno[] alumnos = new Alumno[4];
 
         System.out.println("Hola! ¿Quiéres entrar en la clase 8 de 1º de DAM?\n (si/no)");
-        Scanner sc = new Scanner(System.in);
-        String respuestaEntrada = sc.nextLine();
-
-        if (respuestaEntrada.equals("no")) {
-            System.out.println("Hasta la próxima");
-        }
+        boolean answer = getInOrOutOfClass;
     }
-    public static void String getInOrOutClass (){
+    public boolean getInOrOutOfClass (String answer){
+        //System.out.println("Hola! ¿Quiéres entrar en la clase 8 de 1º de DAM?\n (si/no)");
+        Scanner sc = new Scanner(System.in);
+        answer = sc.nextLine();
 
+        if (answer.equals("no")) {
+            return false;
+        }else return true;
     }
 }

@@ -23,7 +23,7 @@ public class ClaseView {
         return null;
     }
 
-    public Object searchNameAlumno(Alumno alumno){
+    public String searchNameAlumno(String apodo){
         return null;
     }
 
