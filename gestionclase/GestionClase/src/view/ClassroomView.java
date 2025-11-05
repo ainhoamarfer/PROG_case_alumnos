@@ -12,15 +12,16 @@ public class ClassroomView {
     private static final int MIN_MENU = 1;
     private static final int MAX_MENU = 7;
 
-    public void showMenu(){
-        System.out.println("Selecciona una opcion:" +
-        "- añadir students a clase\n" +
-        "- eliminar students de la clase\n" +
-        "- buscar students por nombre parcial\n" +
-        "- buscar students por dni\n" +
-        "- pasar lista\n" +
-        "- Mostrar clase\n" +
-        "- Salir\n");
+    public void showMenu(int numStudents){
+        System.out.println("Nº estudiantes en clase:" + numStudents);
+        System.out.println("Menu:\nSelecciona una opcion:\n" +
+        "1.Añadir students a clase\n" +
+        "2.Eliminar students de la clase\n" +
+        "3.Buscar students por nombre parcial\n" +
+        "4.Buscar students por dni\n" +
+        "5.Pasar lista\n" +
+        "6.Mostrar clase\n" +
+        "7.Salir\n");
     }
 
     public int getMenuOption(){
@@ -28,7 +29,7 @@ public class ClassroomView {
 
         while(true){
             int opcion = sc.nextInt();
-            if(opcion <= MIN_MENU || opcion >= MAX_MENU){
+            if(opcion >= MIN_MENU && opcion <= MAX_MENU){
                 return opcion;
             }
         }
@@ -45,24 +46,35 @@ public class ClassroomView {
         String dni = sc.nextLine();
 
         System.out.println("Dime el año de nacimiento");
-        int birthDate = sc.nextLine();
+        int birthDate = sc.nextInt();
 
         studentDTOReturn = new StudentDTO(name, dni, birthDate);
 
         return studentDTOReturn;
     }
 
-
-    public int showAndGetMenu(){
-        showMenu();
-        return getMenuOption();
+    public String getString(String msg){
+        Scanner sc = new Scanner(System.in);
+        System.out.println(msg);
+        return sc.nextLine();
     }
+
+    public boolean askStudentAttendance(int numberStudent, StudentDTO[]){
+        Scanner sc = new Scanner(System.in);
+        System.out.println(StudentDTO[numberStudent].getName() + "estas?");
+
+    }
+
+   // public int showAndGetMenu(){
+   //     showMenu();
+   //     return getMenuOption();
+   // }
 
     public Object showClass(ClassroomController classroomController){
         return null;
     }
 
-    public void showError() {
-        System.err.println("Error");
+    public void showError(String msg) {
+        System.err.println(msg);
     }
 }
