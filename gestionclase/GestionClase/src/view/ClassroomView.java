@@ -13,8 +13,8 @@ public class ClassroomView {
     private static final int MAX_MENU = 7;
 
     public void showMenu(int numStudents){
-        System.out.println("Nº estudiantes en clase:" + numStudents);
-        System.out.println("Menu:\nSelecciona una opcion:\n" +
+        System.out.println("\nNº estudiantes en clase: " + numStudents);
+        System.out.println("Menu, selecciona una opcion:\n" +
         "1.Añadir students a clase\n" +
         "2.Eliminar students de la clase\n" +
         "3.Buscar students por nombre parcial\n" +
@@ -59,16 +59,34 @@ public class ClassroomView {
         return sc.nextLine();
     }
 
-    public boolean askStudentAttendance(int numberStudent, StudentDTO[]){
-        Scanner sc = new Scanner(System.in);
-        System.out.println(StudentDTO[numberStudent].getName() + "estas?");
-
-    }
+   // public boolean askStudentAttendance(int numberStudent, StudentDTO[]){
+   //     Scanner sc = new Scanner(System.in);
+   //     System.out.println(StudentDTO[numberStudent].getName() + "estas?");
+//
+   // }
 
    // public int showAndGetMenu(){
    //     showMenu();
    //     return getMenuOption();
    // }
+
+    public void showStudentByDni(StudentDTO foundStudentDTO){
+
+        if(foundStudentDTO != null){
+            System.out.println("Ese alumno es" + foundStudentDTO.getName() + "\n" +
+            "Con DNI: " + foundStudentDTO.getDni() + "\n" +
+            "Año nacimiento: " + foundStudentDTO.getBirthDate());
+        }else {
+            showError("No se encontró el alumno");
+        }
+    }
+
+    public void showStudentByNickname(StudentDTO[] foundStudents, int foundStudentsCount) {
+        for(int i = 0; i < foundStudentsCount; i++){
+            showStudentByDni(foundStudents[i]);
+            System.out.println("\n=====================" + i + "=====================\n");
+        }
+    }
 
     public Object showClass(ClassroomController classroomController){
         return null;
@@ -77,4 +95,6 @@ public class ClassroomView {
     public void showError(String msg) {
         System.err.println(msg);
     }
+
+
 }

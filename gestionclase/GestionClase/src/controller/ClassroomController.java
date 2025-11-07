@@ -2,13 +2,14 @@ package controller;
 
 import model.StudentDTO;
 import view.ClassroomView;
+
 import java.util.Scanner;
 
 public class ClassroomController {
 
     //atributos
     private ClassroomView instanceClassView;
-    private static final int MAX_STUDENTS = 30;
+    private static final int MAX_STUDENTS = 1;
     private StudentDTO[] studentDTOS = new StudentDTO[MAX_STUDENTS];
 
     //CUANDO NO SABES CUANTOS ELEMENTOS HAY EN UN ARRAY SE HACE UN COUNT
@@ -67,7 +68,7 @@ public class ClassroomController {
                 showClassroom();
             }
             if(op == 7){
-                getInOrOutOfClass();
+                getStudentOutOfClass();
             }
         }
     }
@@ -93,34 +94,44 @@ public class ClassroomController {
     public void searchNameStudent(){
         String nickname = instanceClassView.getString("Dime el apodo del alumno que quieres buscar");
 
-        for(StudentDTO studentDTO : studentDTOS) {
-            if (studentDTO.getName().contains(nickname)) {
-                System.out.println(studentDTO);
+        StudentDTO[] foundStudents = new StudentDTO[count];
+        int countFoundStudents = 0;
+
+        for(int i = 0; i < count; i++) {
+            if (studentDTOS[i].getName().contains(nickname)) {
+                foundStudents[countFoundStudents] = studentDTOS[i];
+                countFoundStudents++;
             }
         }
+        instanceClassView.showStudentByNickname(foundStudents, countFoundStudents);
     }
 
     //4. buscar studentDTOS por dni
     public void searchDNIStudent(){
         String dni = instanceClassView.getString("Dime el DNI del alumno que quieres buscar");
 
+        //no existe el concepto de objeto vacío, tienes que decir que en principio no hay nada
+        StudentDTO foundStudentDTO = null;
+
         for(StudentDTO studentDTO : studentDTOS) {
-            if (studentDTO.getDni() == dni){
-                System.out.println(studentDTO.getName());
+            if (studentDTO.getDni().equals(dni)){
+                foundStudentDTO = studentDTO;
+                instanceClassView.showStudentByDni(foundStudentDTO);
+                break;
             }
         }
     }
 
     //5. pasar lista
     public void takeRollCall(){
-       for(int i = 0; i < studentDTOS.length; i++) {
-           instanceClassView.askStudentAttendance(i, StudentDTO[])
-           System.out.println(studentDTOS[i].getName() + "estas?");
+      //for(int i = 0; i < studentDTOS.length; i++) {
+      //    instanceClassView.askStudentAttendance(i, StudentDTO[])
+      //    System.out.println(studentDTOS[i].getName() + "estas?");
 
-           if (StudentDTO.attendance() == true){
-               studentDTO = StudentDTO[i]
-           }
-       }
+      //    if (StudentDTO.attendance() == true){
+      //        studentDTO = StudentDTO[i]
+      //    }
+      //}
 
     }
 
@@ -132,11 +143,22 @@ public class ClassroomController {
     }
     
     //7. salir de la clase
-    public boolean getInOrOutOfClass (){
-        String answer = instanceClassView.getString("Hola! ¿Quiéres entrar en la clase 8 de 1º de DAM?\\n (si/no)");
+    public void getStudentOutOfClass (){
+        System.out.println("Dime el DNI del alumno que quieres eliminar");
+        Scanner sc = new Scanner(System.in);
+        String dni = sc.nextLine();
+        int newCount = 0;
 
-        if (answer.equals("no")) {
-            return false;
-        }else return true;
+        StudentDTO[] newStudents = new StudentDTO[MAX_STUDENTS];
+
+        for(int i = 0; i < count; i++) {
+            if(!studentDTOS[i].getDni().equalsIgnoreCase(dni)){
+                newStudents[newCount] = studentDTOS[i];
+                newCount++;
+            }
+        }
+
+        studentDTOS = newStudents;
+        count = newCount;
     }
 }
