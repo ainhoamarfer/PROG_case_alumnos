@@ -3,17 +3,16 @@ package view;
 import controller.ClassroomController;
 import model.StudentDTO;
 
+import java.util.Arrays;
 import java.util.Scanner;
 
 public class ClassroomView {
 
-
-
     private static final int MIN_MENU = 1;
     private static final int MAX_MENU = 7;
 
-    public void showMenu(int numStudents){
-        System.out.println("\nNº estudiantes en clase: " + numStudents);
+    public void showMenu(){
+        //System.out.println("\nNº estudiantes en clase: " + numStudents);
         System.out.println("Menu, selecciona una opcion:\n" +
         "1.Añadir students a clase\n" +
         "2.Eliminar students de la clase\n" +
@@ -59,16 +58,23 @@ public class ClassroomView {
         return sc.nextLine();
     }
 
-   // public boolean askStudentAttendance(int numberStudent, StudentDTO[]){
-   //     Scanner sc = new Scanner(System.in);
-   //     System.out.println(StudentDTO[numberStudent].getName() + "estas?");
-//
-   // }
+    public boolean askStudentAttendance(int numberStudent, StudentDTO[] students){
+        Scanner sc = new Scanner(System.in);
 
-   // public int showAndGetMenu(){
-   //     showMenu();
-   //     return getMenuOption();
-   // }
+        System.out.println(students[numberStudent].getName() + "esta?\n S/N");
+        String answer = sc.nextLine();
+
+        if(answer.equalsIgnoreCase("S")){
+            return true;
+        }else {
+            return false;
+        }
+    }
+
+    public int showAndGetMenu(){
+        showMenu();
+        return getMenuOption();
+    }
 
     public void showStudentByDni(StudentDTO foundStudentDTO){
 
@@ -97,4 +103,8 @@ public class ClassroomView {
     }
 
 
+    public void showRollCall(String[] presentStudents, String[] absentStudents) {
+        System.out.print("Alumnos en clase: " + Arrays.toString(presentStudents));
+        System.out.print("Alumnos que faltan: " + Arrays.toString(absentStudents));
+    }
 }

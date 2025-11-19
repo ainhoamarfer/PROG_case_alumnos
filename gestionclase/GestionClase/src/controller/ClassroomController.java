@@ -9,8 +9,8 @@ public class ClassroomController {
 
     //atributos
     private ClassroomView instanceClassView;
-    private static final int MAX_STUDENTS = 1;
-    private StudentDTO[] studentDTOS = new StudentDTO[MAX_STUDENTS];
+    private static final int MAX_STUDENTS = 2;
+    private StudentDTO[] students = new StudentDTO[MAX_STUDENTS];
 
     //CUANDO NO SABES CUANTOS ELEMENTOS HAY EN UN ARRAY SE HACE UN COUNT
     private int count = 0;
@@ -23,10 +23,10 @@ public class ClassroomController {
         this.instanceClassView = instanceClassView;
     }
     public StudentDTO[] getStudent() {
-        return studentDTOS;
+        return students;
     }
     public void setStudent(StudentDTO[] studentDTOS) {
-        this.studentDTOS = studentDTOS;
+        this.students = studentDTOS;
     }
     public int getCount() {
         return count;
@@ -45,7 +45,7 @@ public class ClassroomController {
     public void executeOptionMenu(){
 
         while(true){
-            instanceClassView.showMenu(count);
+            instanceClassView.showMenu();
 
             int op = instanceClassView.getMenuOption();
 
@@ -81,7 +81,7 @@ public class ClassroomController {
         }
 
         StudentDTO studentDTO = instanceClassView.getInfoStudent();
-        studentDTOS[count] = studentDTO;
+        students[count] = studentDTO;
         count++;
     }
 
@@ -98,8 +98,8 @@ public class ClassroomController {
         int countFoundStudents = 0;
 
         for(int i = 0; i < count; i++) {
-            if (studentDTOS[i].getName().contains(nickname)) {
-                foundStudents[countFoundStudents] = studentDTOS[i];
+            if (students[i].getName().contains(nickname)) {
+                foundStudents[countFoundStudents] = students[i];
                 countFoundStudents++;
             }
         }
@@ -113,7 +113,7 @@ public class ClassroomController {
         //no existe el concepto de objeto vacío, tienes que decir que en principio no hay nada
         StudentDTO foundStudentDTO = null;
 
-        for(StudentDTO studentDTO : studentDTOS) {
+        for(StudentDTO studentDTO : students) {
             if (studentDTO.getDni().equals(dni)){
                 foundStudentDTO = studentDTO;
                 instanceClassView.showStudentByDni(foundStudentDTO);
@@ -123,22 +123,39 @@ public class ClassroomController {
     }
 
     //5. pasar lista
-    public void takeRollCall(){
-      //for(int i = 0; i < studentDTOS.length; i++) {
-      //    instanceClassView.askStudentAttendance(i, StudentDTO[])
-      //    System.out.println(studentDTOS[i].getName() + "estas?");
+    public void takeRollCall() {
 
-      //    if (StudentDTO.attendance() == true){
-      //        studentDTO = StudentDTO[i]
-      //    }
-      //}
+        String[] presentStudents = null;
+        String[] absentStudents = null;
+
+        for (int i = 0; i < students.length; i++) {
+
+            int countPresent = 0;
+            int countAbsent = 0;
+
+            presentStudents = new String[countPresent];
+            absentStudents = new String[countAbsent];
+
+            System.out.println(students[count].getName() + "estas?");
+            boolean answer = instanceClassView.askStudentAttendance(i, students);
+
+            if (answer) {
+                presentStudents[countPresent] = String.valueOf(students[i]);
+                countPresent++;
+            } else {
+                absentStudents[countAbsent] = String.valueOf(students[i]);
+                countAbsent++;
+            }
+        }
+
+        instanceClassView.showRollCall(presentStudents, absentStudents);
 
     }
 
     //6. Mostrar clase (pasar a view)
     private void showClassroom() {
         for(int i = 0; i < count; i++) {
-            System.out.println(studentDTOS[count]);
+            System.out.println(students[count]);
         }
     }
     
@@ -152,13 +169,13 @@ public class ClassroomController {
         StudentDTO[] newStudents = new StudentDTO[MAX_STUDENTS];
 
         for(int i = 0; i < count; i++) {
-            if(!studentDTOS[i].getDni().equalsIgnoreCase(dni)){
-                newStudents[newCount] = studentDTOS[i];
+            if(!students[i].getDni().equalsIgnoreCase(dni)){
+                newStudents[newCount] = students[i];
                 newCount++;
             }
         }
 
-        studentDTOS = newStudents;
+        students = newStudents;
         count = newCount;
     }
 }
